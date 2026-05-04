@@ -1,4 +1,4 @@
 interface:
-  display_name: "HF Model Research"
+  display_name: "hf-research"
   short_description: "HF 모델·논문·커뮤니티 반응 조사와 내부 브리핑"
   default_prompt: "Use $research-hf-model to analyze this Hugging Face model, trace official papers or technical reports when available, check practitioner discussion on GeekNews or Hacker News when relevant, and draft a Korean internal lab briefing with separated evidence classes."

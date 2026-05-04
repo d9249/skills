@@ -1,4 +1,4 @@
 interface:
-  display_name: "현재 diff 커밋 메시지"
+  display_name: "commit-ko"
   short_description: "현재 워킹트리만 근거로 한국어 커밋 메시지 작성"
-  default_prompt: "Use $current-diff-commit-ko to inspect the current working tree only and draft a Korean commit message based strictly on the files currently changed."
+  default_prompt: "Use $commit-ko to inspect the current working tree only and draft a Korean commit message based strictly on the files currently changed."
