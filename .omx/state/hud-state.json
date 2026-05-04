@@ -1,5 +1,5 @@
 {
-  "last_turn_at": "2026-05-04T07:44:17.707Z",
-  "turn_count": 3,
-  "last_agent_output": "```text\nrefactor(skills): 스킬 패키지 이름 단축\n\n- `current-diff-commit-ko`를 `commit-ko`로 옮기고 스킬 이름과 제목을 갱신\n-"
+  "last_turn_at": "2026-05-04T07:59:13.860Z",
+  "turn_count": 5,
+  "last_agent_output": "```text\nfeat(paper2code): arXiv 논문 구현 스킬 추가\n\n- arXiv URL/ID를 받아 논문을 파싱하고 인용 기반 Python 구현을 생성하는 `pape"
 }
