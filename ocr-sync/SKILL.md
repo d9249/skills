@@ -1,9 +1,9 @@
 ---
-name: pp-ocr-ocr-sync
+name: ocr-sync
 description: Mirror specific git commits from the pp-ocr repository into the paired ocr repository by calling pp-ocr's existing scripts/git/mirror_commit_to_ocr.py workflow and verifying the resulting paths. Use when Codex is working in pp-ocr and the user asks to sync, mirror, carry over, or reflect one or more pp-ocr commit SHAs into the sibling ocr repo.
 ---
 
-# PP-OCR OCR Sync
+# OCR Sync
 
 ## Overview
 
@@ -14,13 +14,13 @@ Mirror one or more `pp-ocr` commits into the paired `ocr` repo with the existing
 Run the bundled helper from anywhere:
 
 ```bash
-"${CODEX_HOME:-$HOME/.codex}"/skills/pp-ocr-ocr-sync/scripts/sync_commits.py <sha1> [<sha2> ...]
+"${CODEX_HOME:-$HOME/.codex}"/skills/ocr-sync/scripts/sync_commits.py <sha1> [<sha2> ...]
 ```
 
 Override locations only when the default repo discovery is wrong:
 
 ```bash
-"${CODEX_HOME:-$HOME/.codex}"/skills/pp-ocr-ocr-sync/scripts/sync_commits.py \
+"${CODEX_HOME:-$HOME/.codex}"/skills/ocr-sync/scripts/sync_commits.py \
   --source-repo /Users/mean/Documents/Github/pp-ocr \
   --target-repo /Users/mean/Documents/Github/ocr \
   --target-branch master \

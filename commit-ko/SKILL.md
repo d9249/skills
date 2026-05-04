@@ -1,9 +1,9 @@
 ---
-name: current-diff-commit-ko
+name: commit-ko
 description: Write a Korean git commit message from the repository's current modified files only. Use when the user asks for a commit message based on the current code changes, current diff, current working tree, or explicitly says not to rely on previous conversation/history. Inspect git status and current diffs first, base the message only on files currently changed, and avoid mentioning features not present in the live working tree.
 ---
 
-# Current Diff Commit Ko
+# Commit Ko
 
 ## Overview
 

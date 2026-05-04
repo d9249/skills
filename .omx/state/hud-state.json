@@ -1,5 +1,5 @@
 {
-  "last_turn_at": "2026-05-04T07:33:00.996Z",
-  "turn_count": 2,
-  "last_agent_output": "```text\nfeat(skills): Codex 스킬 워크플로 추가\n\n- 현재 diff 기준으로 커밋 메시지 작성, 주간 보고서, HF 모델 조사 스킬을 추가\n- pp-ocr→o"
+  "last_turn_at": "2026-05-04T07:44:17.707Z",
+  "turn_count": 3,
+  "last_agent_output": "```text\nrefactor(skills): 스킬 패키지 이름 단축\n\n- `current-diff-commit-ko`를 `commit-ko`로 옮기고 스킬 이름과 제목을 갱신\n-"
 }

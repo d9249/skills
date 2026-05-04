@@ -1,9 +1,9 @@
 ---
-name: research-hf-model
+name: hf-research
 description: "Research Hugging Face models from a model URL or `org/model` repo id and draft a Korean internal briefing that separates model-card claims, official upstream information, official paper/technical-report evidence, third-party evidence, community discussion evidence from GeekNews/Hacker News, local smoke-test results, and explicit inferences. Use when Codex needs to explain performance, differentiators, base-model deltas, deployment traits, risks, paper-backed architecture claims, real-user pain points, and best-fit use cases for internal sharing."
 ---
 
-# Research HF Model
+# HF Research
 
 ## Overview
 
@@ -19,7 +19,7 @@ paper or technical report rather than relying only on the model card summary.
 2. Run:
 
 ```bash
-python ~/.codex/skills/research-hf-model/scripts/collect_hf_model_snapshot.py \
+python ~/.codex/skills/hf-research/scripts/collect_hf_model_snapshot.py \
   <hf-url-or-repo-id>
 ```
 

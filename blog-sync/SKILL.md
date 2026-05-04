@@ -1,9 +1,9 @@
 ---
-name: sync-aidt-blog-to-blog
+name: blog-sync
 description: Mirror specific git commits from /Users/mean/Documents/Github/aidt-blog into the paired /Users/mean/Documents/Github/blog repository by calling aidt-blog's repo-local scripts/git/mirror_commit_to_blog.py workflow and verifying the resulting paths. Use when Codex is working with aidt-blog and the user asks to sync, reflect, copy, mirror, or carry over one or more aidt-blog commit SHAs into blog, or asks to diagnose the aidt-blog -> blog commit mirror hook.
 ---
 
-# Sync aidt-blog to blog
+# Blog Sync
 
 ## Overview
 
@@ -14,13 +14,13 @@ Mirror one or more `aidt-blog` commits into the paired `blog` repo with the repo
 Run the bundled helper from anywhere:
 
 ```bash
-"${CODEX_HOME:-$HOME/.codex}"/skills/sync-aidt-blog-to-blog/scripts/sync_commits.py <sha1> [<sha2> ...]
+"${CODEX_HOME:-$HOME/.codex}"/skills/blog-sync/scripts/sync_commits.py <sha1> [<sha2> ...]
 ```
 
 Override locations only when the default repo discovery is wrong:
 
 ```bash
-"${CODEX_HOME:-$HOME/.codex}"/skills/sync-aidt-blog-to-blog/scripts/sync_commits.py \
+"${CODEX_HOME:-$HOME/.codex}"/skills/blog-sync/scripts/sync_commits.py \
   --source-repo /Users/mean/Documents/Github/aidt-blog \
   --target-repo /Users/mean/Documents/Github/blog \
   --target-branch master \
