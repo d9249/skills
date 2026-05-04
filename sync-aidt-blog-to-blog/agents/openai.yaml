@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sync AIDT Blog"
+  short_description: "Mirror aidt-blog commits into blog"
+  default_prompt: "Use $sync-aidt-blog-to-blog to mirror committed changes from aidt-blog into blog."

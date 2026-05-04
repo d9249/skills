@@ -1,0 +1,4 @@
+interface:
+  display_name: "Weekly Report"
+  short_description: "Git-based weekly report workflow"
+  default_prompt: "Use $weekly-report to complete both weekly-report outputs in one pass from git history: the stakeholder summary and the matching repo weekly doc with synced indexes."
