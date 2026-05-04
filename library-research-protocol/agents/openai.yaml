@@ -1,0 +1,4 @@
+interface:
+  display_name: "Library Research Protocol"
+  short_description: "Source-verified capability research"
+  default_prompt: "Use $library-research-protocol to investigate this library as source-verified capabilities and compare overlapping alternatives."
