@@ -16,6 +16,7 @@ Use this skill to turn library research from a marketing summary into source-ver
 - Distinguish `main`/`develop`, latest release, latest package version, docs version, and checked date.
 - Distinguish OSS package, hosted/cloud product, enterprise feature, model weights, datasets, and provider/service terms.
 - Do not claim "all features" unless the required research surfaces were checked and coverage gaps are stated.
+- Do not mark a multi-library batch skim as `capability-family`. Batch research is only `preliminary-overlap-map` until each library has its own source tree / docs / tutorial / release / dependency deep dive.
 - Never let external libraries own product decisions. They provide evidence or execution; the host product owns route selection, policy, quality gates, lineage, and final decisions.
 - Record license/privacy/runtime constraints alongside capabilities, not as an afterthought.
 - Mark the research coverage level: `overview`, `capability-family`, or `implementation-ready`.
@@ -36,10 +37,12 @@ Use this skill to turn library research from a marketing summary into source-ver
 
 4. Inspect runtime and governance surfaces.
    - Dependencies, optional extras, Python/Node/runtime bounds, GPU/distributed requirements, cloud/provider clients, API keys, telemetry, dotenv behavior, local storage, output logs, data retention, and sensitive artifacts.
+   - Check model weights, datasets, hosted service terms, and generated-data ownership separately from code license.
 
 5. Build the Feature Family Inventory.
    - Summarize every material capability family with what it includes and how the host product should interpret it.
-   - Mark deprecated, partial, cloud-only, enterprise-only, experimental, or legacy paths.
+   - Mark included, excluded, pending, deprecated, partial, cloud-only, enterprise-only, experimental, or legacy paths.
+   - Map install extras/package options to feature families when they change runtime behavior.
 
 6. Build the Capability Manifest.
    - Use capability IDs like `text_deduplication`, `schema_contract_validation`, or `red_team_strategy_executor`.
@@ -48,6 +51,7 @@ Use this skill to turn library research from a marketing summary into source-ver
 7. Build the Alternatives Matrix.
    - For each important capability, list overlapping libraries and explain when to prefer, avoid, or combine them.
    - Include license/runtime/privacy tradeoffs. This is the duplicate-implementation gate.
+   - Ask: is this capability already in the registry; do its inputs/outputs fit the StageContract; can an adapter mapper resolve mismatches; is a safer candidate available; is the planned code external-backend glue or a duplicate implementation?
 
 8. Decide planner role.
    - Classify each library as `GREEN`, `YELLOW`, or `RED`.
@@ -72,6 +76,42 @@ Use this skill to turn library research from a marketing summary into source-ver
 | `implementation-ready` | Adapter-ready for selected capabilities | Public API/config, input/output schema, error modes, smoke test, pinned version, artifact mapper plan, license/provider terms |
 
 Use `capability-family` as the default for planning. Use `implementation-ready` only for capabilities the user intends to implement now.
+
+## Required Research Surfaces
+
+Check these surfaces before declaring `capability-family`:
+
+| Surface | What to verify |
+|---|---|
+| README / overview | official positioning, quickstart, representative workflow |
+| Official docs | feature guide, concepts, API reference, runtime/deployment guide |
+| Tutorials / examples | hidden workflow families, actual input/output patterns |
+| Source tree map | package/module/stage/class/function families |
+| Install extras / dependencies | optional extras, GPU/CUDA/Ray/service/OS/container conditions |
+| Release notes / tags | recent architecture changes, deprecations, known issues |
+| License / model / data terms | code license, model weights, datasets, hosted terms |
+| Runtime behavior | local/hosted, batch/distributed jobs, secrets, telemetry, storage |
+| Output artifacts | reports, metrics, datasets, embeddings, model artifacts, external links |
+
+## Duplicate-Implementation Gate
+
+Before proposing ROUTIVA-owned code or a new adapter, answer:
+
+1. Does a registry library already provide this capability?
+2. If yes, do its inputs, outputs, artifacts, and quality signals fit the host StageContract?
+3. If not, can an Adapter or ArtifactMapper resolve the mismatch?
+4. Is there a safer alternative by license, privacy, runtime, egress, or maintenance status?
+5. Is the proposed code product-owned contract glue, or is it reimplementing an external backend?
+
+If these answers are missing, do not start implementation. Continue research or mark the capability as pending.
+
+## Confidence Labels
+
+| Label | Meaning |
+|---|---|
+| `high` | official docs/source/tutorials were checked and alternatives were compared |
+| `medium` | official evidence supports the capability, but API/runtime deep dive remains |
+| `low` | README or secondary evidence dominates; source/API confirmation is insufficient |
 
 ## Subagents
 
