@@ -139,8 +139,6 @@ Also use it when the user sends only a GitHub repo or website but expects the sa
    - Keep the tone analytical and polished, like an internal AI lab report adapted into a public blog post
    - Do not use emoji-section social-post formatting unless the user explicitly asks for that style
    - Prefer short paragraphs with clear section headings over giant bullet dumps
-   - Default to reader-friendly paragraph spacing: usually 1-3 sentences per paragraph, and split dense explanations into separate paragraphs rather than letting one block run long
-   - In the final markdown, leave explicit blank lines between paragraphs so the published post is easy to scan on desktop and mobile
 
 6. Save the post
    - Before creating a new file, search the blog repo for an existing post about the same artifact/topic using title keywords, slug candidates, repo/model name, and canonical source URL if available.
@@ -282,12 +280,6 @@ Use these to distinguish the repo's stable core idea from very recent implementa
 8. Optional closing paragraph
    - When useful, end with a forward-looking or adoption-oriented takeaway
 
-Paragraph formatting defaults:
-- prefer 1-3 sentence paragraphs for analytical prose
-- break paragraphs when switching between context, evidence, and interpretation
-- preserve explicit blank lines between paragraph blocks in the saved markdown
-- if a section starts to look dense on a phone screen, split it before finishing
-
 9. Optional compact source list
    - Add `Sources:` only when it materially helps traceability or the user asks for it
 
@@ -295,7 +287,6 @@ Paragraph formatting defaults:
 
 - Write in Korean.
 - The published post must read as a normal authored article, not as a transcript of the request workflow.
-- Favor paragraph-level readability: usually keep paragraphs to 1-3 sentences, split at idea transitions, and preserve explicit blank lines between paragraph blocks in markdown.
 - Do not mention that the user sent the link, requested the summary, asked for the post, or used AI to produce it.
 - Avoid provenance-revealing phrasing such as "사용자가 보낸 링크", "요청받은 글", "이 글은 링크를 받아 정리했다", or similar workflow/meta narration inside the article body.
 - If source provenance matters editorially, describe the artifact neutrally (for example, "이 비교는 Reddit 커뮤니티에서 확산됐지만 핵심 근거는 공식 포스트에 있다") without referencing the user or the generation workflow.
@@ -393,7 +384,6 @@ Before finalizing, verify:
 - Frontmatter matches repo conventions
 - YAML indentation is valid in the saved file. In particular, fields such as `draft:` must align with top-level keys and must not accidentally remain indented under `tags:` or another list item.
 - The body contains actual synthesis, not only summary bullets
-- Paragraph blocks are easy to scan: long sections are split into shorter paragraphs and markdown preserves blank lines between them
 - Claims are source-grounded
 - Markdown tables, if used, render correctly — specifically verify there are no accidental malformed rows such as leading double pipes (`|| ...`) from generation or copy/editing
 - After writing the file, perform a concrete file-level check for malformed table rows before committing (for example, inspect the saved markdown or search for lines beginning with `||` in the target post) and fix them if present
