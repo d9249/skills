@@ -88,7 +88,7 @@ The existing frontmatter pattern is:
 ```yaml
 ---
 title: "<Korean title>"
-date: "YYYY-MM-DD"
+date: "YYYY-MM-DDTHH:mm:ss"
 description: "<one-sentence practical summary>"
 author: "Sangmin Lee"
 repository: "owner/repo"
@@ -108,11 +108,27 @@ draft: false
 ---
 ```
 
-Use `YYYY-MM-DD` for tips dates unless the live repo changes the convention.
+Use an ISO-like local timestamp with seconds for tips dates, e.g. `date: "2026-05-10T19:26:19"`. Capture the live local timestamp at drafting time with `date '+%Y-%m-%dT%H:%M:%S'` unless the live repo changes the convention; do not use date-only `YYYY-MM-DD` for new tips entries.
 
 ## Source Collection Workflow
 
 Always start from the exact URL the user provided.
+
+For a concrete CLI/developer-tool example with multiple distribution surfaces (GitHub, npm, Homebrew tap, Releases, official images, macOS/GNOME companion apps), see `references/codeburn-case-study.md`. Use it as a pattern when README claims, package metadata, and release tracks need cross-checking.
+
+For AI/dev-observability tools that read local logs, session databases, usage telemetry, or account tokens, see `references/tokscale-case-study.md`. Use it as a pattern for privacy-safe source inspection, avoiding accidental execution against the user's local logs, distinguishing local analysis from public/social upload, and handling GitHub API rate limits by downloading known README asset paths from `raw.githubusercontent.com`.
+
+For a desktop/menu-bar/tray utility example with macOS and Windows builds, official screenshots, Sparkle appcast metadata, Homebrew cask, Windows manifest, and platform-specific implementation folders, see `references/port-killer-case-study.md`.
+
+For a macOS-only document editor or Markdown productivity app, see `references/markedit-case-study.md`. Use it as a pattern for checking official wiki pages, Homebrew cask minimum OS requirements, Xcode project deployment targets, Info.plist document types, entitlements/sandboxing, official screenshots, and macOS system integrations such as Quick Look, Finder extensions, AppleScript, Shortcuts, inline predictions, and Writing Tools.
+
+For macOS menu bar hardware/thermal/sensor utilities, see `references/hot-case-study.md`. Use it as a pattern for checking Xcode project settings, `LSUIElement`, entitlements, Homebrew cask metadata, Release ZIP assets, submodules such as SMC/IOHID/update frameworks, and architecture-specific behavior differences such as Intel CPU speed limit versus Apple Silicon thermal pressure.
+
+For macOS-only clipboard/history utilities, see `references/maccy-case-study.md`. Use it as a pattern for preserving the official Homebrew command even when cask metadata is inspected, extracting useful frames from official demo videos when README screenshots are sparse, checking `LSUIElement`/Sparkle/appcast/minimum macOS evidence, and writing stronger privacy caveats around copied passwords, tokens, pasteboard types, Ignore rules, Accessibility permission, and clear-on-quit behavior.
+
+For old macOS event-tap/menu-bar utilities that modify global mouse or keyboard behavior, see `references/sensible-side-buttons-case-study.md`. Use it as a pattern for checking official websites when README is sparse, collecting website media, verifying `LSUIElement`, `CGEventTapCreate`, `AXIsProcessTrustedWithOptions`, bundle IDs, deployment targets, old DMG-only releases, missing Homebrew casks, and writing careful caveats about Accessibility permissions and modern macOS compatibility.
+
+For mature cross-platform system monitoring tools that expose TUI/Web UI/REST API/Docker/MCP surfaces, see `references/glances-case-study.md`. Use it as a pattern for cross-checking package registries and docs, selecting distinct mode screenshots, and writing security caveats for unauthenticated Web/API exposure, bind addresses, CORS/allowed-hosts, reverse proxies, Docker socket mounts, and recent security release notes.
 
 ### 1. Identify the artifact
 
@@ -166,10 +182,15 @@ Depending on project shape, check:
 - Homebrew formula/cask if README mentions it
 - npm/PyPI/crates.io package pages if it is a library or CLI
 - app bundle notarization/signing notes for macOS apps when visible
-- package manifests such as `package.json`, `pyproject.toml`, `Cargo.toml`, `Package.swift`, `Info.plist`, `tauri.conf.json`, or `electron-builder` config
+- app/update distribution metadata such as Sparkle `appcast.xml`, Homebrew formula/cask files, release asset names, Windows installers/manifests, MSIX metadata, and architecture-specific ZIP/DMG assets
+- platform-specific implementation folders such as `platforms/macos`, `platforms/windows`, `src-tauri`, `apps/desktop`, or Electron app directories
+- package manifests such as `package.json`, `pyproject.toml`, `Cargo.toml`, `Package.swift`, `.csproj`, `Info.plist`, `tauri.conf.json`, or `electron-builder` config
+- native macOS app evidence such as Homebrew cask `depends_on`, Xcode `MACOSX_DEPLOYMENT_TARGET`, `Info.plist` document types / URL schemes / AppleScript support, entitlements/sandboxing, Quick Look or Finder extensions, and official wiki/manual pages
 - docs install page when the README points to one
 
 Record install commands exactly when they are official. If install is source-build only, say so.
+
+When an install surface has its own metadata, compare it with the README instead of assuming they match. For example, npm `engines.node`, latest package version, Homebrew formula URL/checksum, and GitHub release assets can reveal version or requirement mismatches. On this user's machine, default `npm` invocations may abort if PATH resolves an old Homebrew Cellar node; use `PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin npm view <package> ...` for npm registry checks when needed.
 
 ### 4. Gather visuals only when useful
 
@@ -356,7 +377,7 @@ Commit message:
 
 ## Validation Commands
 
-Use small checks before committing:
+Use small checks before committing. Parse frontmatter as YAML and inspect `fm['platforms']` directly; do **not** validate platforms by running a broad regex over all frontmatter list items, because `tags` and `highlights` use the same `- "..."` syntax and will be falsely treated as platform slugs.
 
 ```bash
 python3 - <<'PY'
@@ -371,6 +392,7 @@ fm = yaml.safe_load(front)
 required = ['title','date','description','author','repository','sourceUrl','status','license','platforms','tags','highlights','draft']
 missing = [k for k in required if k not in fm]
 assert not missing, missing
+assert re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}', str(fm['date'])), fm['date']
 valid = {c['slug'] for c in yaml.safe_load((repo/'src/data/tipCategories.json').read_text())}
 unknown = [p for p in fm.get('platforms', []) if p not in valid]
 assert not unknown, unknown
@@ -427,17 +449,33 @@ Then write a tips entry that is more like an adoption note than a full blog post
 
 4. **Leaving `Sources:` as a final paragraph.** `tip-post.js` strips a trailing `Sources:` paragraph. Use `## 참고한 공개 자료` if sources should remain visible.
 
-5. **Overstating release maturity.** A repo with a README and stars is not necessarily packaged or production-ready. Check releases, tags, install instructions, and manifests.
+5. **Overstating release maturity.** A repo with a README and stars is not necessarily packaged or production-ready. Check releases, tags, install instructions, and manifests. If a project has multiple release tracks, such as CLI tags plus separate macOS app releases, inspect the full recent releases list instead of relying only on `/releases/latest`.
 
-6. **Ignoring token/security requirements.** Many useful GitHub tools require PATs or OAuth scopes. Mention this clearly.
+6. **Ignoring token/security/local-log requirements.** Many useful GitHub tools require PATs or OAuth scopes. AI/dev-observability tools may read local logs containing project paths, shell commands, prompts, or cost data. Mention this clearly, especially before recommending exports or screenshots.
 
 7. **Using a generic GitHub Open Graph image when the README has a better screenshot.** Prefer the visual that explains the tool.
 
-8. **Staging unrelated blog or site changes.** The user's blog repo often has unrelated local edits. Stage only the tips file and intentional tips images.
+8. **Staging unrelated blog or site changes.** The user's blog repo often has unrelated local edits. Stage only the tips file and intentional tips images. If unrelated modified files appear during validation/build, inspect their focused diff if needed, but do not stage or reset them unless the user explicitly asks. Re-check status immediately before `git add` and use explicit file paths.
 
-9. **Pushing unrelated ahead commits.** Always inspect `origin/main..HEAD` before pushing.
+9. **Pushing unrelated ahead commits.** Always inspect `origin/<branch>..HEAD` before pushing. If unrelated local commits are ahead, do not push automatically.
 
-10. **Misdiagnosing Homebrew Node PATH crashes as site build failures.** If `npm run build` aborts with `Library not loaded ... libllhttp...` and the referenced binary is an old `/opt/homebrew/Cellar/node/<version>/bin/node`, first retry with the clean PATH from `references/d9249-build-node-path.md` before editing site content or dependencies.
+11. **Blurring real OS support with the site's coarse platform buckets.** The tips site currently has only broad platform slugs. If a macOS-only app uses `macos-linux` because it is the closest category, explicitly state the real support in the body/highlights. Do not imply Linux support just because the category label says `macOS / Linux`.
+
+12. **Skipping native-app distribution evidence.** Desktop utilities often hide important facts in appcasts, Homebrew casks, Windows manifests, `.csproj` targets, release asset names, and platform subdirectories. Check those before claiming install methods, minimum OS versions, admin/elevation requirements, or architecture support.
+
+13. **Misdiagnosing Homebrew Node PATH crashes as site build failures.** If `npm run build` aborts with `Library not loaded ... libllhttp...` and the referenced binary is an old `/opt/homebrew/Cellar/node/<version>/bin/node`, first retry with the clean PATH from `references/d9249-build-node-path.md` before editing site content or dependencies.
+
+14. **Under-checking macOS document/editor app evidence.** For macOS-only productivity apps, inspect Homebrew cask requirements, Xcode deployment target, `Info.plist` document types, entitlements/sandboxing, official wiki/manual pages, and official screenshots. If the site category forces `macos-linux`, explicitly state the real app support as macOS-only or macOS-centered.
+
+15. **Assuming built-in preview/export from Markdown-editor branding.** Some editors deliberately avoid full side-by-side HTML preview or PDF/Word export and instead point to extensions or tools such as Pandoc. Verify the product philosophy and docs before listing missing/nonexistent features as built-ins.
+
+16. **Regex-validating YAML list items as platforms.** Frontmatter fields such as `platforms`, `tags`, and `highlights` all use the same YAML list syntax. Validation scripts must parse YAML and check `fm['platforms']` specifically; otherwise tags like `CLI` or highlight sentences will be misreported as invalid platform slugs.
+
+17. **Understating Web/API exposure risk for monitoring tools.** For system monitors and dashboards, check docs and release notes for default bind address, authentication defaults, CORS, allowed hosts, DNS rebinding protections, API token support, and reverse-proxy guidance. If Docker examples mount `/var/run/docker.sock`, use host PID/network, or expose Web/MCP endpoints, state the operational/security caveat clearly.
+
+18. **Under-documenting clipboard-manager privacy risk.** Clipboard/history utilities can store passwords, API keys, customer data, and private snippets even when they advertise secure defaults. Inspect README/settings/source for ignored pasteboard types, app/regexp ignore rules, one-shot ignore modes, clear-on-quit, clear-system-clipboard, storage type toggles, and Accessibility permissions. Mention that confidential pasteboard defaults reduce risk but do not guarantee every secret workflow is excluded.
+
+19. **Overriding official install commands with package-manager internals.** Homebrew may expose a GUI app through cask metadata while the project README says `brew install <app>`. Quote the official README command in the article, and use cask/appcast metadata only to verify version, asset URL, auto-update behavior, and minimum OS requirements.
 
 ## Verification Checklist
 
