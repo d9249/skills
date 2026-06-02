@@ -113,6 +113,7 @@ Also use it when the user sends only a GitHub repo or website but expects the sa
    - Why it matters in practice
    - Whether there is a strong official visual worth embedding
    - Whether there is comparison/workflow/matrix information that should become a table
+   - Whether prose-only sections should become a text-derived visual spec; if so, read `references/consulting-visual-spec.md` before creating the image
    - For repositories or docs pages that expose enumerated capability lists, compare the current official list against any existing local post before concluding that no update is needed.
    - When an existing local post already covers the same GitHub repository or artifact, treat the task as an update pass: refresh volatile facts from live official sources before deciding whether the old post is still current. In practice this means re-checking stars/forks, tags/releases, default branch, recent commit/version signals, and any packaging or installation notes that may have drifted.
    - When you update an existing post, audit both narrative paragraphs and any embedded tables so the same volatile facts are not left inconsistent in different sections.
@@ -136,6 +137,7 @@ Also use it when the user sends only a GitHub repo or website but expects the sa
 
 5. Draft the post in unified blog format
    - Write in Korean
+   - Public-facing prose, captions, diagrams, charts, thumbnails, SVG labels, and alt text must be Korean by default. Keep English only for proper nouns, model names, library names, commands, URLs, and source identifiers that should not be translated.
    - Keep the tone analytical and polished, like an internal AI lab report adapted into a public blog post
    - Do not use emoji-section social-post formatting unless the user explicitly asks for that style
    - Prefer short paragraphs with clear section headings over giant bullet dumps
@@ -147,7 +149,20 @@ Also use it when the user sends only a GitHub repo or website but expects the sa
    - Use kebab-case ASCII slug unless the repo clearly uses another convention
    - Match existing frontmatter fields exactly when possible
 
-7. Optional thumbnail workflow
+7. Optional text-derived visual workflow
+   - Use this when the article has an important workflow, architecture, metric delta, comparison, issue tree, risk/maturity matrix, or executive takeaway that would be clearer as a figure.
+   - Read `references/consulting-visual-spec.md` and write a compact visual spec before drawing or generating the asset.
+   - Prefer deterministic SVG/HTML/table renderers for charts, architecture, process, and benchmark visuals. Use generative image models mainly for abstract editorial covers.
+   - For Korean blog posts, all visible labels in the visual must be Korean unless the label is an official product/model/library/source name.
+   - Before wiring any generated visual into the post, render the final asset at its intended dimensions and visually inspect the rendered image. Do not accept images with clipped text, overflowing labels, overlapped components, cramped chips, or text that extends outside its intended panel.
+   - Keep diagram labels short, manually wrap long Korean copy into separate lines, and size boxes around the longest rendered label rather than assuming the text will fit.
+   - Arrows and connectors must be semantic, not decorative. Use an arrow only when the relationship has a clear direction in the article/spec, and verify that the rendered arrow starts and ends at sensible components without pointing into labels or empty space. If the relationship is only grouping, dependency, or "these parts share this output," prefer numbering, section dividers, or a shared result band instead of arrows.
+   - Do not reuse the same card-grid layout as the default answer for every visual. Choose a layout grammar that matches the content: stack/layer map for operating layers, before-after board for deltas, matrix for tradeoffs, timeline for releases, issue tree for root causes, and dashboard only for genuinely multi-metric scans. If a post includes multiple visuals, they should use distinct layout grammars unless the article explicitly needs a repeated series.
+   - Choose the visual type by communication intent, and record the reason when nearby types could also fit.
+   - Keep public labels neutral, such as `metric dashboard`, `architecture map`, or `executive diagram`; do not expose brand-specific inspiration names in the article.
+   - Save local assets under `static/images/blog/<slug>-<short-name>.<ext>` and wire them into the article only when the asset materially improves comprehension.
+
+8. Optional thumbnail workflow
    - Prefer a generative thumbnail when it will improve consistency and clickability.
    - Default thumbnail style: clean technical editorial cover for an AI lab/report blog, not flashy YouTube clickbait.
    - Build the thumbnail concept from the actual article angle: artifact name, core mechanism, and one strong visual metaphor.
@@ -159,10 +174,10 @@ Also use it when the user sends only a GitHub repo or website but expects the sa
    - For generation, prefer image models that are strong at editorial/graphic covers, typography-free compositions, or diagram-like technical visuals. If text rendering inside the image would be unreliable, keep the image text-free and let the page title provide the text.
 - If external image-generation credentials are unavailable (for example no `FAL_KEY`/`LEGNEXT_KEY`), fall back to a local generated cover concept: create a clean SVG-based editorial thumbnail from the article's core pipeline/mechanism, then render/export it to PNG inside the repo.
 - Prefer rendering the SVG through a browser/screenshot path for final export verification, because direct OS thumbnail/export tools can distort the intended aspect ratio or add unexpected padding. Verify the final PNG dimensions before using it.
-- For this fallback path, prefer simple high-contrast shapes, pipeline arrows, badges, and short English labels derived from the post's central mechanism rather than long Korean copy blocks.
+- For this fallback path, prefer simple high-contrast shapes, pipeline arrows, badges, and short Korean labels derived from the post's central mechanism rather than long prose blocks.
 - Keep the fallback composition minimal. Avoid decorative side bars or extra chart glyphs unless they clearly improve readability; they can easily make the layout feel unbalanced at thumbnail size.
 
-8. Git workflow
+9. Git workflow
    - Check `git status --short --branch` first
    - Do not disturb unrelated existing changes
    - Stage only the newly created or intentionally edited blog file and any intentionally added thumbnail asset or template change
@@ -272,6 +287,7 @@ Use these to distinguish the repo's stable core idea from very recent implementa
 - Reject blurry, tiny, or low-detail assets when a higher-resolution alternative is available.
 - Avoid decorative or redundant images that repeat the same point without adding understanding.
 - Do not force an image when no useful visual exists.
+- If the source lacks good official visuals but the article has a strong workflow, architecture, comparison, or metric story, use `references/consulting-visual-spec.md` to create a grounded text-derived visual instead of a vague decorative thumbnail.
 
 7. Optional structured comparison block
    - When the source includes role comparisons, feature matrices, workflows, benchmark axes, or clearly tabular facts, represent them as a Markdown table or another scannable structured block.
@@ -393,6 +409,7 @@ Before finalizing, verify:
 
 - If a thumbnail was appropriate, it was either generated and wired in, or consciously skipped with a reason
 - If generation APIs were unavailable, a local SVG-to-PNG fallback was considered before skipping thumbnails entirely
+- If a text-derived visual was created, a visual spec exists and each number/node/label is grounded in the article or source evidence
 - If the source contained structured comparison/workflow information, the post presents it as a table or another clearly scannable block
 - Only intended files are staged/committed
 - Push status is confirmed or the failure is clearly reported
@@ -404,15 +421,16 @@ When the user sends only a link:
 1. Inspect the page and any official linked sources
 2. Look for reusable official images, diagrams, screenshots, workflow visuals, benchmark charts, or qualitative examples
 3. Decide which of those visuals actually improve comprehension and where each should appear in the article; do not default to a single hero image if multiple visuals explain different sections better
-4. Decide whether the post should also get a generative thumbnail; if yes, define a thumbnail concept from the article angle before writing
-5. Look for comparison points, matrices, workflows, benchmark axes, or other facts that should be rendered as a table
-6. Infer title/category/slug
-7. Draft the post
-8. If appropriate, generate and save the thumbnail asset, then wire it into frontmatter/template conventions
-9. Save the article into the blog repo
-10. Generate commit message
-11. Commit and push
-12. Return the saved path, thumbnail path if any, commit hash/message, and a short summary of the article angle
+4. If the article's own prose has a workflow, architecture, metric, matrix, or executive-summary story that needs a custom figure, read `references/consulting-visual-spec.md` and draft the visual spec before writing the final image block
+5. Decide whether the post should also get a generative thumbnail; if yes, define a thumbnail concept from the article angle before writing
+6. Look for comparison points, matrices, workflows, benchmark axes, or other facts that should be rendered as a table
+7. Infer title/category/slug
+8. Draft the post
+9. If appropriate, generate and save the thumbnail or text-derived visual asset, then wire it into frontmatter/template conventions or the article body
+10. Save the article into the blog repo
+11. Generate commit message
+12. Commit and push
+13. Return the saved path, visual/thumbnail path if any, commit hash/message, and a short summary of the article angle
 
 ## Reference Template
 
