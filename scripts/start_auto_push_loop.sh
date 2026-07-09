@@ -22,7 +22,7 @@ fi
 nohup /bin/sh -c '
 repo_dir="$1"
 interval="$2"
-trap "exit 0" INT TERM HUP
+trap "exit 0" INT TERM
 while :; do
   SKILLS_REPO_DIR="$repo_dir" /bin/sh "$repo_dir/scripts/commit_and_push_if_changed.sh" || true
   sleep "$interval" || exit 0
