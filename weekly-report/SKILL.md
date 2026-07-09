@@ -120,3 +120,5 @@ Completion rule:
   - computes first and last commits, commit count, date range, and top-level diff summary for a report range
 - `references/report-formats.md`
   - contains the stakeholder-summary template, repo weekly-doc checklist, and combined completion checklist
+
+<!-- hermes-sync-smoke-test: edited through ~/.hermes symlink on 2026-07-09 21:43 KST -->
