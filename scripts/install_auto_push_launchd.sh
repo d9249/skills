@@ -8,6 +8,7 @@ launch_agents="$HOME/Library/LaunchAgents"
 log_dir="$HOME/Library/Logs"
 plist="$launch_agents/$label.plist"
 uid="$(id -u)"
+fallback="$repo_dir/scripts/start_auto_push_loop.sh"
 
 mkdir -p "$launch_agents" "$log_dir"
 
@@ -24,8 +25,6 @@ cat > "$plist" <<PLIST
     <string>/bin/sh</string>
     <string>$repo_dir/scripts/commit_and_push_if_changed.sh</string>
   </array>
-  <key>WorkingDirectory</key>
-  <string>$repo_dir</string>
   <key>StartInterval</key>
   <integer>$interval</integer>
   <key>RunAtLoad</key>
@@ -46,9 +45,21 @@ cat > "$plist" <<PLIST
 PLIST
 
 launchctl bootout "gui/$uid" "$plist" >/dev/null 2>&1 || true
-launchctl bootstrap "gui/$uid" "$plist"
-launchctl enable "gui/$uid/$label"
-launchctl kickstart -k "gui/$uid/$label"
+if launchctl bootstrap "gui/$uid" "$plist"; then
+  launchctl enable "gui/$uid/$label"
+  launchctl kickstart -k "gui/$uid/$label"
+  sleep 2
+  if launchctl print "gui/$uid/$label" 2>/dev/null | grep -q 'last exit code = 126'; then
+    launchctl bootout "gui/$uid" "$plist" >/dev/null 2>&1 || true
+    echo "launchd cannot access the repo; falling back to a user-started loop"
+    SKILLS_REPO_DIR="$repo_dir" SKILLS_AUTO_PUSH_INTERVAL="$interval" "$fallback"
+    exit 0
+  fi
+else
+  echo "launchd bootstrap failed; falling back to a user-started loop"
+  SKILLS_REPO_DIR="$repo_dir" SKILLS_AUTO_PUSH_INTERVAL="$interval" "$fallback"
+  exit 0
+fi
 
 echo "installed $label"
 echo "$plist"
