@@ -26,6 +26,8 @@ if [ -z "$branch" ]; then
   exit 0
 fi
 
+ahead=0
+behind=0
 upstream="$(git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)"
 if [ -n "$upstream" ]; then
   counts="$(git rev-list --left-right --count "HEAD...$upstream" 2>/dev/null || printf '0 0')"
@@ -39,6 +41,11 @@ if [ -n "$upstream" ]; then
 fi
 
 if git diff --quiet --ignore-submodules -- && git diff --cached --quiet --ignore-submodules -- && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+  if [ "$ahead" != "0" ] && [ "${SKILLS_AUTO_PUSH_NO_PUSH:-0}" != "1" ]; then
+    git push
+    log "pushed $branch"
+    exit 0
+  fi
   log "clean: no skill changes"
   exit 0
 fi
