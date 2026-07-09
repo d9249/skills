@@ -1,4 +1,6 @@
 .DS_Store
+__pycache__/
+*.pyc
 /.omx
 /.omx
 .omx/logs/turns-2026-05-04.jsonl
