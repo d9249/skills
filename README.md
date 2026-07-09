@@ -160,10 +160,11 @@ uv run scripts/hermes_link_skills.py
 자동 커밋/푸시:
 
 ```bash
+sh scripts/install_hermes_cron_autopush.sh
 sh scripts/install_auto_push_launchd.sh
 ```
 
-설치 후 launchd가 5분마다 `scripts/commit_and_push_if_changed.sh`를 실행한다. macOS가 launchd의 `~/Documents` 접근을 막으면 installer가 launchd job을 내리고 현재 사용자 세션에서 `scripts/start_auto_push_loop.sh`를 대신 띄운다. Hermes에서 symlink로 연결된 스킬을 수정하면 이 저장소의 실제 파일이 바뀌고, 변경분이 있으면 `chore(skills): sync Hermes skill updates` 커밋으로 `origin/main`에 push된다.
+권장 경로는 Hermes cron이다. `install_hermes_cron_autopush.sh`는 `~/.hermes/scripts/skills_auto_push.sh` 래퍼를 만들고, Hermes gateway cron ticker에서 5분마다 실행되는 no-agent job을 등록한다. launchd installer는 보조 경로다. macOS가 launchd의 `~/Documents` 접근을 막으면 installer가 launchd job을 내리고 현재 사용자 세션에서 `scripts/start_auto_push_loop.sh`를 대신 띄운다. Hermes에서 symlink로 연결된 스킬을 수정하면 이 저장소의 실제 파일이 바뀌고, 변경분이 있으면 `chore(skills): sync Hermes skill updates` 커밋으로 `origin/main`에 push된다.
 
 ## 추천 사용 순서
 
