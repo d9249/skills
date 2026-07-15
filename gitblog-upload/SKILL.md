@@ -418,6 +418,7 @@ Before finalizing, verify:
 - Only intended files are staged/committed
 - Push status is confirmed or the failure is clearly reported
 - For the user's Gatsby blog, a successful `npm run build` can still print repeated Node deprecation warnings such as `punycode` under noisy `ERROR  UNKNOWN` banners. Treat those as non-blocking only when the command exits 0 and Gatsby reports page generation/build completion; otherwise treat them as real build failures.
+- If Gatsby cannot resolve a dependency that is already declared in `package.json` and present in `package-lock.json` (for example after an incomplete `node_modules` install), run `npm ci` from the repo root, verify with `npm ls <package> --depth=0`, then rerun the build. Do not add or change dependency manifests merely to repair an incomplete local install.
 
 ## Suggested Working Pattern
 
