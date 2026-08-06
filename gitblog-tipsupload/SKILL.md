@@ -477,6 +477,8 @@ Then write a tips entry that is more like an adoption note than a full blog post
 
 19. **Overriding official install commands with package-manager internals.** Homebrew may expose a GUI app through cask metadata while the project README says `brew install <app>`. Quote the official README command in the article, and use cask/appcast metadata only to verify version, asset URL, auto-update behavior, and minimum OS requirements.
 
+20. **Treating a tool-level binary classification as proof that Markdown is corrupt.** On this environment, `read_file` can occasionally report a Korean UTF-8 Markdown tip as binary even though the on-disk bytes contain no NULs and Gatsby parses it normally. Do not rewrite or discard the post based on that classification alone. Check `nul_count` and read the file through Python, then validate YAML/frontmatter and run the Gatsby build.
+
 ## Verification Checklist
 
 - [ ] Exact source URL inspected
