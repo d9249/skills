@@ -112,6 +112,7 @@ Also use it when the user sends only a GitHub repo or website but expects the sa
    - If it is an idea/spec/gist rather than a runnable product, explicitly classify it that way and avoid overstating implementation maturity
    - Core mechanism / architecture / workflow / benchmark design
    - Evidence: metrics, examples, release scope, limitations, license caveats, or deployment constraints
+   - For repositories that claim large benchmark or efficiency gains, inspect the repository's open issues and recent discussion before drafting. Separate implementation evidence (tests/CI/package checks) from performance claims; report credible reproducibility requests or contrary community results as unresolved evidence, not as proof of either success or misconduct. Do not reproduce headline benchmark numbers as settled facts without runnable artifacts, trace coverage, and an independently checkable evaluation context.
    - Why it matters in practice
    - Whether there is a strong official visual worth embedding
    - Whether there is comparison/workflow/matrix information that should become a table
