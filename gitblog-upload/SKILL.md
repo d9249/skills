@@ -187,7 +187,8 @@ Also use it when the user sends only a GitHub repo or website but expects the sa
    - Stage only the newly created or intentionally edited blog file and any intentionally added thumbnail asset or template change
    - Write a concise commit message
    - Commit and push the current branch when safe
-   - If push fails because of auth/divergence, report the exact failure
+   - If push fails because of auth/divergence, report the exact failure.
+- If the remote advanced after the initial status check and the local worktree also contains unrelated untracked files that would block a rebase/checkout, do not stash, delete, or overwrite those files merely to publish the post. Instead create a temporary detached worktree at `origin/<branch>`, cherry-pick only the new blog commit there, rebuild it, and push that rebased commit. Read back the remote SHA and target paths afterward; leave the original busy worktree untouched.
 
 ## Unified Blog Output Format
 
