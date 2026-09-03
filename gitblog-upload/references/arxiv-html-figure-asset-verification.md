@@ -29,4 +29,4 @@ For charts, timelines, architecture diagrams, and other figures with embedded te
 - Compare the chosen local asset against the official PDF/HTML figure before embedding it.
 - Reject a local asset when labels, axes, legends, or caption-bearing text are unreadable even if the file downloads and dimensions look sane.
 - Treat `dark_dominant_wide_figure` as a conversion or extraction warning for chart-like figures. If the official figure is readable but the local optimized copy is dark or matte-inverted, regenerate from the official HTML image or arXiv source bundle.
-- When converting transparent PNGs/SVG renders to PNG/JPEG/WebP, flatten onto a white matte unless the source figure is explicitly designed for a dark background.
+- When converting transparent PNGs/SVG renders to PNG/JPEG/WebP, flatten onto a white matte unless the source figure is explicitly designed for a dark background. On macOS, `sips` can rasterize an SVG but may leave transparency that becomes black in a WebP conversion. Composite the PNG onto a white background (for example with Pillow) before `cwebp`; remember that `sips -z` takes `height width`, not `width height`.
