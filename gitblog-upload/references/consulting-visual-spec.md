@@ -98,6 +98,7 @@ Before committing a post with text-derived visuals:
 - Every generated local asset is referenced by the article or frontmatter.
 - For SVG, include `<title>` and `<desc>`, stable dimensions, and readable text at final article width.
 - Render the final SVG/HTML/card to the actual output size and inspect the image. Reject it if any text is clipped, overlaps another component, or escapes its panel/card/chip/axis.
+- On d9249.github.io, inspect every post image at a 390px viewport, not only document-level horizontal overflow. The renderer can assign a wide-image class with `min-width: 640px` inside its own horizontal frame; verify each image bounding box. For an image that must shrink responsively, give it an inline `min-width: 0` as well as `width`/`max-width: 100%`, then rebuild and recheck its rendered bounds.
 - For diagrams, connectors should show direction clearly, should not terminate inside labels or empty space, and should not be used unless the visual spec states the relationship they encode.
 - If a human reviewer would ask "why is this arrow here?", remove the arrow and use numbering, spacing, dividers, or grouping instead.
 - For SVG markers, use fixed-size arrowheads or manually drawn arrowheads when needed; avoid marker settings that scale arrowheads into oversized triangles.
