@@ -49,6 +49,14 @@ Use this skill when the user sends a link and wants you to:
 
 Also use it when the user sends only a GitHub repo or website but expects the same polished style previously used for paper reviews.
 
+## Batch Requests (Multiple `gitblog-upload` / `gitblog-tipsupload` Lines)
+
+When one user message contains multiple explicit upload commands/URLs, treat it as one batch job with independently processed items. Parse every command into `{skill, exact URL}`, preserving the requested mode per line. Deduplicate identical `(skill, canonical URL)` items to avoid duplicate posts; if the same artifact is requested in both modes, honor both only when the outputs are genuinely distinct, otherwise report the overlap and avoid duplicate/conflicting content.
+
+Research each item independently and in parallel where possible, but serialize all edits to the shared blog repository. Maintain a per-item ledger (URL, requested skill, target path, status, validation/build result, commit outcome) so a failure on one item does not hide other results. Search for existing posts and tips entries across the whole batch before drafting to prevent duplicates between items. Draft/write all successful items, then run validation and a single site build for the combined change set. Stage only the intended batch files, create one clear batch commit (or separate commits only when materially useful), and push once after checking branch safety. Never let parallel workers write/commit/push independently to the same worktree. Report completed, skipped/deduplicated, and failed items with paths and shared commit/build status. If the user explicitly requests separate commits or sequential processing, follow that instead.
+
+For a single URL, continue with the workflow below.
+
 ## Required End-to-End Workflow
 
 1. Identify artifact type

@@ -17,6 +17,14 @@ argument-hint: "<URL> [slug] [platforms]"
 
 This skill is the tips-focused companion to `gitblog-upload`.
 
+## Batch Requests (Multiple Upload Commands)
+
+When a user message contains multiple explicit `gitblog-upload` and/or `gitblog-tipsupload` commands, handle them as one batch while preserving the exact requested skill for each URL. Research independent sources concurrently where practical, but serialize writes to the shared blog repo; never have parallel workers commit or push to the same worktree. Search both `content/blog/` and `content/tips/` for duplicates across the entire batch before drafting. Deduplicate repeated identical `(skill, canonical URL)` entries; if one artifact is requested in both modes, produce both only if they are meaningfully distinct and non-conflicting, otherwise report the overlap and avoid duplicate publication.
+
+Track each item’s URL, mode, target path, and outcome. A failure on one item must not prevent other items from completing. After drafting the successful items, validate all files and run one Gatsby build for the combined change set; stage only intended files, commit/push once after verifying branch safety, and report per-item outcomes plus shared build/commit/push status. Honor explicit requests for separate commits or sequential handling.
+
+For a single URL, continue with the workflow below.
+
 Use it when the user sends a GitHub repository, open-source app, CLI utility, developer library, local productivity tool, or small useful project and wants it added to the user's tips collection rather than written as a full AI lab-style blog article.
 
 Primary output path:
