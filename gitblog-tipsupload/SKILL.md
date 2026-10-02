@@ -88,7 +88,7 @@ Current tips renderer facts:
 - `gatsby-node.js` marks Markdown files from the `tips` source instance as `contentType: "tip"`.
 - `src/templates/tip-post.js` renders `title`, `description`, `repository`, `sourceUrl`, `status`, `license`, `platforms`, and `tags` from frontmatter.
 - `src/components/TipsIndex.js` renders `highlights` on cards.
-- `tip-post.js` removes a trailing paragraph that starts with `Sources:` from rendered article HTML, so prefer a normal `## 참고한 공개 자료` section for visible sources.
+- `tip-post.js` removes a trailing paragraph that starts with plain `Sources:`; it does not remove a `## Sources` heading. When using the grounded-citations ledger, keep its generated `## Sources` heading so strict verification works and references remain visible. Put a blank line between numbered source entries so Gatsby renders readable separate link paragraphs on narrow screens. Without the ledger, use `## 참고한 공개 자료` with ordinary linked bullets.
 - `src/data/tipCategories.json` currently supports platform slugs:
   - `macos-linux` — label `macOS / Linux`
   - `winos` — label `WinOS`
@@ -457,7 +457,7 @@ Then write a tips entry that is more like an adoption note than a full blog post
 
 3. **Using unsupported platform slugs.** Check `src/data/tipCategories.json` before writing `platforms`.
 
-4. **Leaving `Sources:` as a final paragraph.** `tip-post.js` strips a trailing `Sources:` paragraph. Use `## 참고한 공개 자료` if sources should remain visible.
+4. **Mismatching the citation block to the tip renderer.** The tip template strips a trailing plain `Sources:` paragraph, but retains the ledger-generated `## Sources` heading. For ledger-backed entries, preserve that heading and separate each numbered source line with a blank line; for non-ledger entries, use `## 참고한 공개 자료` and linked bullets.
 
 5. **Overstating release maturity.** A repo with a README and stars is not necessarily packaged or production-ready. Check releases, tags, install instructions, and manifests. If a project has multiple release tracks, such as CLI tags plus separate macOS app releases, inspect the full recent releases list instead of relying only on `/releases/latest`.
 
