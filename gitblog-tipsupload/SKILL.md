@@ -457,7 +457,7 @@ Then write a tips entry that is more like an adoption note than a full blog post
 
 3. **Using unsupported platform slugs.** Check `src/data/tipCategories.json` before writing `platforms`.
 
-4. **Mismatching the citation block to the tip renderer.** The tip template strips a trailing plain `Sources:` paragraph, but retains the ledger-generated `## Sources` heading. For ledger-backed entries, preserve that heading and separate each numbered source line with a blank line; for non-ledger entries, use `## 참고한 공개 자료` and linked bullets.
+4. **Mismatching the citation block to the tip renderer.** The tip template strips a trailing plain `Sources:` paragraph, but retains the ledger-generated `## Sources` heading. For ledger-backed entries, preserve that heading and separate each numbered source line with a blank line; for non-ledger entries, use `## 참고한 공개 자료` and linked bullets. The current `tip-post.js` passes body HTML through `formatReadableArticleHtml` but not `linkPostCitations`: the formatter inserts `<br>` after sentence boundaries, while inline `[n]` markers remain plain text and the `## Sources` list contains the clickable URLs. Verify the rendered spacing and source links instead of assuming the inline markers themselves are links; do not change the shared template solely for this behavior unless the task includes a template change.
 
 5. **Overstating release maturity.** A repo with a README and stars is not necessarily packaged or production-ready. Check releases, tags, install instructions, and manifests. If a project has multiple release tracks, such as CLI tags plus separate macOS app releases, inspect the full recent releases list instead of relying only on `/releases/latest`.
 
