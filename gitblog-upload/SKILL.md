@@ -119,6 +119,7 @@ For a single URL, continue with the workflow below.
 
 3. Extract the minimum grounded facts
    - Canonical title / artifact name
+   - For papers, verify each author's affiliation from official abstract/HTML metadata; do not infer affiliation groupings from author-name order or nearby prose.
    - What problem it addresses
    - What it actually ships or proposes
    - If it is an idea/spec/gist rather than a runnable product, explicitly classify it that way and avoid overstating implementation maturity
