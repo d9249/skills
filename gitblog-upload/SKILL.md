@@ -354,6 +354,7 @@ Use these to distinguish the repo's stable core idea from very recent implementa
   - use the linked/cited primary papers when needed to verify terminology or historical attribution,
   - and make the article's value proposition the quality of the synthesis, compression, or comparative framing rather than pretending it is a new research contribution.
 - For mechanistic-interpretability and representation-readout papers, distinguish native model answers from external readout/oracle pipelines. Inspect appendix protocols for gold-conditioned or manually supplied reasoning templates before describing hidden-state evolution as spontaneous reasoning. Report intervention strength, random-edit controls, and non-target side effects; a large amplified intervention is not equivalent to a natural unit edit.
+- For robotics/VLA/world-model releases, distinguish understanding-benchmark scores, ground-truth-history-conditioned offline trajectory predictions, future-frame examples, and actual closed-loop robot task success. Check whether auxiliary action/visual decoders are distributed separately; a shared LM output head and downloadable VLM weights do not by themselves establish an executable robot policy.
 - If hard numbers are absent, do not hallucinate them.
 - If the artifact is thin, say so diplomatically in the interpretation section.
 - Prefer 3-5 meaningful tags, mixing English technical terms and concise category labels when appropriate.
