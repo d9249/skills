@@ -489,6 +489,8 @@ Then write a tips entry that is more like an adoption note than a full blog post
 
 20. **Treating a tool-level binary classification as proof that Markdown is corrupt.** On this environment, `read_file` can occasionally report a Korean UTF-8 Markdown tip as binary even though the on-disk bytes contain no NULs and Gatsby parses it normally. Do not rewrite or discard the post based on that classification alone. Check `nul_count` and read the file through Python, then validate YAML/frontmatter and run the Gatsby build.
 
+21. **Flattening app-family evidence.** Distinguish a creative-suite catalog from the vendor's separate AI studio, the launcher, and individual editors. Compare website-pinned downloads with live GitHub Releases; captions must flag stale screenshot app counts or versions. Verify privacy exceptions for online collaboration even when editing is local-first, and distinguish a standalone file-parser round-trip test from the editor's actual save fidelity.
+
 ## Verification Checklist
 
 - [ ] Exact source URL inspected
