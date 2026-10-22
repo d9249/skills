@@ -27,6 +27,7 @@ The helper writes `contact.jpg` for visual selection and `figure_quality.json` f
 For charts, timelines, architecture diagrams, and other figures with embedded text:
 
 - Compare the chosen local asset against the official PDF/HTML figure before embedding it.
+- If the arXiv HTML image is low-resolution, inspect the paper PDF's embedded images before attempting source-tarball downloads or upscaling. With `pypdf.PdfReader`, enumerate `page.images`, inspect each image's native dimensions via Pillow, and extract `image.data`; PDFs can contain 2–3× larger originals than their HTML counterparts. Match the extracted figure visually against the HTML version, preserve white matte, and optimize that native original rather than enlarging a small bitmap.
 - Reject a local asset when labels, axes, legends, or caption-bearing text are unreadable even if the file downloads and dimensions look sane.
 - Treat `dark_dominant_wide_figure` as a conversion or extraction warning for chart-like figures. If the official figure is readable but the local optimized copy is dark or matte-inverted, regenerate from the official HTML image or arXiv source bundle.
 - When converting transparent PNGs/SVG renders to PNG/JPEG/WebP, flatten onto a white matte unless the source figure is explicitly designed for a dark background. On macOS, `sips` can rasterize an SVG but may leave transparency that becomes black in a WebP conversion. Composite the PNG onto a white background (for example with Pillow) before `cwebp`; remember that `sips -z` takes `height width`, not `width height`.
