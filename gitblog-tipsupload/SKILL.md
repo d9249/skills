@@ -491,6 +491,8 @@ Then write a tips entry that is more like an adoption note than a full blog post
 
 21. **Flattening app-family evidence.** Distinguish a creative-suite catalog from the vendor's separate AI studio, the launcher, and individual editors. Compare website-pinned downloads with live GitHub Releases; captions must flag stale screenshot app counts or versions. Verify privacy exceptions for online collaboration even when editing is local-first, and distinguish a standalone file-parser round-trip test from the editor's actual save fidelity.
 
+22. **Treating API changelogs as installable OSS or unconditional policy truth.** For official release-note/documentation URLs, publish a practical dated operations tip rather than inventing a repository or app installer. Separate documentation/code licenses from service terms, and clarify OS buckets as client-development environments. Cross-check dated release notes with live policy, deprecation, migration, and SDK docs; if extraction returns an older default, inspect the live English article and exact code blocks before declaring a contradiction. Distinguish new/existing projects, request/project settings, developer logs/abuse monitoring, dataset sharing/Contributor Tier, and deprecation/automatic rerouting/actual shutdown. Check the minimum SDK version for new flags. Do not claim zero retention from a storage opt-out, or authenticated API execution from syntax-only example validation. A focused table and code example may be more useful than a decorative screenshot.
+
 ## Verification Checklist
 
 - [ ] Exact source URL inspected
