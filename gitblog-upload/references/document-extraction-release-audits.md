@@ -1,0 +1,15 @@
+# Document extraction release audits
+
+Use for OCR and schema-directed field extraction announcements, especially when a new product links to older public model artifacts.
+
+1. Separate whole-document OCR serialization (for example document-region keys) from arbitrary business-field extraction. Both can emit JSON without having the same task or output contract.
+2. Verify model generations independently: new base/version/parameter claim, adapter recipe, current public weight files, model card, and older paper. A public predecessor with a similar name is not a release of the newly benchmarked checkpoint. Preserve model identifiers exactly; do not silently repair hyphens or assume aliases resolve.
+3. Read the actual model LICENSE and README together. Public/ungated weights and launch-page “open-source” copy do not establish OSI licensing or commercial permission. Inspect internal-business, paid-pilot, hosted/API and public-institution restrictions; do not transfer an older package's terms to an unreleased new product without evidence.
+4. Recover benchmark values from original chart images when the blog text omits them. Save their exact source URLs and distinguish field/path/table-position F1, value similarity, JSON-validity factors and document exact success. Do not invent weighted/macro/micro aggregation or null matching rules when no scorer is public.
+5. Count documents separately from multiple request scenarios on the same documents. Record missing-field/phantom-field tests and explicitly attributed held-out dataset claims; a few selected examples do not establish general or Korean-language performance.
+6. Keep schema-following claims separate from decoder-enforced syntax, independent validation, retries and measured adherence rates. An aggregate metric containing a JSON-validity factor does not prove 100% syntactic or schema compliance. Numeric-looking strings in a published example need not be JSON numbers.
+7. Separate API list pricing applied to observed token usage from self-hosted GPU-time accounting. State hardware, hourly rate, reasoning effort and volume assumptions. Amortized GPU time is neither request latency, a retail service price, nor total deployment cost; do not omit idle capacity, licensing, operations and human review when interpreting savings.
+8. Check public organization models/datasets/spaces, actual file lists, adapter/prompt/scorer availability and source-data versus derived benchmark annotations. A predecessor dataset or generic OCR demo does not reproduce a new field extraction benchmark.
+9. Read demo source statically before classifying it: local Transformers/Spaces-GPU inference, external model APIs, whole-text OCR versus user-schema extraction. A server-side Hub login does not imply visitor authentication. A separate product login portal is not anonymous demo/API access; do not upload sensitive documents or test paid inference without authorization.
+
+For a short post, prioritize the output contract, evaluation/cost denominator, artifact identity and one material operational limitation rather than reproducing every marketing claim.
