@@ -20,6 +20,7 @@ Use this skill to turn library research from a marketing summary into source-ver
 - Never let external libraries own product decisions. They provide evidence or execution; the host product owns route selection, policy, quality gates, lineage, and final decisions.
 - Record license/privacy/runtime constraints alongside capabilities, not as an afterthought.
 - Mark the research coverage level: `overview`, `capability-family`, or `implementation-ready`.
+- For agent-harness bundles, separate Markdown guidance, executable hooks, memory capture, and hosted services. Verify each target adapter's actual installation/enforcement surface; shared skill format or a setup guide does not establish feature parity. Treat passing repository CI as engineering evidence, not measured agent-quality, cost, or latency improvement. Inspect any proposed auto-learning observer's default enablement, captured data, and inference path before recommending activation.
 
 ## Workflow
 
