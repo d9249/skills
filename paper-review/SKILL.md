@@ -41,7 +41,7 @@ Use this skill when the user asks to summarize, review, 소개, 정리, or make 
 🔑 Keywords : ...
 ```
 
-Also use it when the user provides only a GitHub or Hugging Face dataset link but clearly wants the corresponding paper-review style.
+Also use it when the user provides only a GitHub or Hugging Face dataset link but clearly wants the corresponding paper-review style. For explicit `gitblog-upload`, use that skill for the publication format and release workflow; share the evidence checks here, not the social-post template.
 
 ## Source-Gathering Workflow
 
@@ -60,8 +60,9 @@ Also use it when the user provides only a GitHub or Hugging Face dataset link bu
    - Main problem
    - Proposed method
    - Training/data construction if central
-   - Benchmarks and headline quantitative results
-   - The most interesting qualitative insight or limitation
+   - Benchmarks and headline quantitative results: resolve multi-row appendix headers into named columns before transcribing values, then align paper tables and project charts by variant, workload, and paper version rather than figure number alone. Verify the metric aggregation and evaluation regime; a control column or different tuning resolution can make a visually adjacent number the wrong comparison.
+   - Efficiency claims: distinguish observed endpoints, interpolation and fitted ratios. State which stages/operations the FLOP budget counts and what is held fixed before comparing it with tokens or wall time. Name the timing baseline and interval type; an over-baseline plot, absolute latency table, run range and training-seed uncertainty answer different questions.
+   - The strongest counterexample or boundary condition for the headline; check the comparison that changes resolution, data, or model components before generalizing.
 5. For code and datasets, verify:
    - Whether the repository/dataset is official
    - What is actually included
@@ -103,8 +104,6 @@ Do not include a `Sources:` line in the post body by default. If the environment
 - The `💡` section should be the most personal/interpretive part of the review. It can say what was impressive, surprising, or important, while staying professional and source-grounded.
 - Use Korean terms naturally, with English technical terms in parentheses only when helpful.
 - Keep numerical claims conservative and exact. Say "최대", "약", or "reported" only when the source supports them.
-- For numerical audits, check appendix group headers and map data into named columns before quoting; an intervening control column or a change in figure numbering can silently shift the comparison.
-- Separate measured endpoints from interpolated or fitted compute ratios, and identify the reference and interval type for every latency delta; an added-over-baseline plot and a percent-saved table can use different baselines.
 - Do not fabricate rankings, affiliations, benchmark names, dataset sizes, or code features.
 - If the paper is weak, incremental, or mostly a dataset/code release, say so diplomatically in the insight paragraph.
 - If the only provided artifact is code or dataset and the linked paper cannot be found, change the title line to the best available artifact name but preserve the review format.

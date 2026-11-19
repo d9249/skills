@@ -85,7 +85,7 @@ For a single URL, continue with the workflow below.
    - For arXiv papers, when the abstract is not enough, also inspect the `/html/` rendering in addition to `/abs` or PDF; the HTML version often exposes figure captions and direct image asset URLs that are easier to embed accurately in the blog post.
    - If the shell lacks `pdftotext`, use Hermes `read_file` directly on the local PDF: it auto-extracts the text layer and can expose the full paper without installing a PDF CLI. Treat this as a text-layer extraction; use the arXiv HTML or rendered pages for figures, tables, and visual verification.
 - For arXiv HTML figure asset collection and legibility checks, use `references/arxiv-html-figure-asset-verification.md` before converting figures into local blog assets.
-- If the paper has an official project page, treat it as a first-class companion source rather than an optional extra. Use the arXiv HTML for method structure, equations, and section flow; use the project page for cleaner benchmark tables, rollout summaries, and stable official visuals.
+- If the paper has an official project page, treat it as a first-class companion source. Use the versioned paper for methods and evaluation conditions. For interactive charts with no visible table, inspect the linked data asset (for example `static/js/data.js`) as text, pin its revision if available, and match its series, units, and conditions to the paper before quoting. Chart points and a website repository are evidence for what is plotted, not evidence that training code or checkpoints shipped.
 - For arXiv papers, explicitly check the HTML rendering itself for companion-source links such as a top-of-page `Code:` link. The `/html/` page can expose an official GitHub repo or project page even when the `/abs/` page or abstract snippet did not make that companion source obvious.
 - If the paper-linked repo exists, inspect it as a first-class companion source even for paper-centric posts: README benchmark tables, example/config files, asset filenames, and repository metadata can corroborate release maturity and sometimes provide cleaner numbers or more stable official visuals than the paper HTML alone.
 - For arXiv training/architecture papers with a freshly created companion repo, explicitly capture repo-age and packaging signals before calling the release mature: creation/push dates, stars/forks, whether `/releases/latest` 404s, whether `/tags` is empty, and whether the README already contains a usable reproduction guide. These details often matter as much as the paper when judging how real the release is.
@@ -158,8 +158,8 @@ For a single URL, continue with the workflow below.
 - For tabular / structured-data papers that pair a benchmark with a specialized embedding model, decide category by asking which artifact would still matter if the model changed next month. If the durable contribution is the benchmark and its evaluation protocol, file under `evaluation-benchmarks`; if the durable contribution is the representation/model architecture itself, consider `foundation-models` or another existing model-centric bucket.
 
 5. Draft the post in unified blog format
-   - Write in Korean
-   - Public-facing prose, captions, diagrams, charts, thumbnails, SVG labels, and alt text must be Korean by default. Keep English only for proper nouns, model names, library names, commands, URLs, and source identifiers that should not be translated.
+   - Write a concise Korean AI-lab article by default; expand when the user asks for depth or the comparison needs it. Keep the public prose lightweight without skipping source or methodology checks.
+   - Write captions, alt text, and newly authored diagrams, charts, and thumbnails in Korean; retain proper names and technical identifiers as needed. Keep original labels intact on reproduced official figures and explain the key comparison in the Korean caption.
    - Keep the tone analytical and polished, like an internal AI lab report adapted into a public blog post
    - Do not use emoji-section social-post formatting unless the user explicitly asks for that style
    - Prefer short paragraphs with clear section headings over giant bullet dumps
@@ -205,7 +205,7 @@ For a single URL, continue with the workflow below.
    - Do not disturb unrelated existing changes
    - Stage only the newly created or intentionally edited blog file and any intentionally added thumbnail asset or template change
    - Write a concise commit message
-   - Commit and push the current branch when safe
+   - Follow the scoped worktree and deploy-ref checks in Safe Git Procedure; do not mistake a push to a topic branch for publication.
    - If push fails because of auth/divergence, report the exact failure.
    - Treat this upload workflow as authorization for end-to-end publication, not just writing or pushing. Apply `static-site-publication-qa`: build and render the final content, push only the verified scope to the deployment branch, wait for the exact commit's deployment to succeed, and read back the public article and new assets before reporting completion. Keep detailed release mechanics in that skill rather than duplicating them here.
 - If the remote advanced after the initial status check and the local worktree also contains unrelated untracked files that would block a rebase/checkout, do not stash, delete, or overwrite those files merely to publish the post. Instead create a temporary detached worktree at `origin/<branch>`, cherry-pick only the new blog commit there, rebuild it, and push that rebased commit. Read back the remote SHA and target paths afterward; leave the original busy worktree untouched.
@@ -324,8 +324,8 @@ Use these to distinguish the repo's stable core idea from very recent implementa
 8. Optional closing paragraph
    - When useful, end with a forward-looking or adoption-oriented takeaway
 
-9. Optional compact source list
-   - Add `Sources:` only when it materially helps traceability or the user asks for it
+9. Sources and citation gate
+   - For source-based posts, cite factual claims inline and generate a visible `## Sources` block with `grounded-citations`. Leave a blank line after the heading. Use a separate task ledger and run `sources.py --ledger <ledger> verify <post> --strict --evidence --min-coverage 0.65` on the final file before building. Do not lower the gate or add citations to alt text or metadata to pass it.
 
 ## Writing Rules
 
@@ -431,22 +431,10 @@ Keep it short and factual.
 
 ## Safe Git Procedure
 
-1. Run `git status --short --branch` in `/Users/mean/Documents/Github/d9249.github.io`
-2. Confirm the target article path
-3. Write the file
-4. Inspect the diff for only that file
-5. If the file is brand new and `git diff -- <that-file>` appears empty, confirm creation with `git status --short --branch` before proceeding; untracked files will not always show useful diff output.
-6. Run `git add -- <that-file>` only
-7. Commit only that staged file
-8. Before pushing, check whether `origin/<branch>..HEAD` contains only the new blog commit; if older unrelated local commits are also ahead, do not auto-push them.
-9. Push the current branch only when that push scope is intentional and safe
-
-Important:
-- If unrelated changes already exist, do not stage them.
-- If the new article depends on touching index/config files too, verify that those edits are expected before staging them.
-- If the repo is in a risky or conflicted state, explain the situation before pushing.
-- If `git status --branch` or `git log origin/<branch>..HEAD` shows the branch is already ahead because of unrelated local commits, do not `git push` automatically. Commit only the blog file, then report that pushing now would also publish pre-existing local commits.
-- If the working tree has unrelated modified files, it is still acceptable to create a commit for the blog post as long as only the intended blog file is staged.
+1. Before drafting, run `git status --short --branch` in `/Users/mean/Documents/Github/d9249.github.io` and fetch the actual deployment branch. Check `content/` on the fetched ref for duplicate titles, IDs and URLs; a stale local checkout can miss an already published post.
+2. If the main checkout is dirty, ahead, or diverged, draft and build in an isolated worktree from the fetched deploy ref, e.g. `git worktree add -b blog/<slug> <scratch-worktree> origin/main`. Leave its local commits and untracked drafts untouched; do not stash, reset, or rebase them just to publish.
+3. After QA, verify the index has no unrelated entries, stage the article and intended assets by explicit path using `git add -- <post> <assets…>`, compare `git diff --cached --name-only` to that exact list, and run `git diff --cached --check`. Commit only that scope. An empty unstaged diff does not establish that a new untracked article is absent; check status.
+4. Confirm only the verified release commit(s) would go out against the current remote deploy ref. Push explicitly to that ref (e.g. `git push origin HEAD:main`) without force, then follow `static-site-publication-qa` through exact-SHA deployment and live readback.
 
 ## Quality Bar Before Finishing
 
