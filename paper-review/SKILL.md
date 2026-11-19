@@ -102,7 +102,9 @@ Do not include a `Sources:` line in the post body by default. If the environment
 - The `📊` section should connect results to implications. For safety or interpretability work, mention the relevant behaviors, interventions, and post-training or deployment effects when verified.
 - The `💡` section should be the most personal/interpretive part of the review. It can say what was impressive, surprising, or important, while staying professional and source-grounded.
 - Use Korean terms naturally, with English technical terms in parentheses only when helpful.
-- Keep numerical claims conservative and exact. Say "최대", "약", or "reported" only when the source supports it.
+- Keep numerical claims conservative and exact. Say "최대", "약", or "reported" only when the source supports them.
+- For numerical audits, check appendix group headers and map data into named columns before quoting; an intervening control column or a change in figure numbering can silently shift the comparison.
+- Separate measured endpoints from interpolated or fitted compute ratios, and identify the reference and interval type for every latency delta; an added-over-baseline plot and a percent-saved table can use different baselines.
 - Do not fabricate rankings, affiliations, benchmark names, dataset sizes, or code features.
 - If the paper is weak, incremental, or mostly a dataset/code release, say so diplomatically in the insight paragraph.
 - If the only provided artifact is code or dataset and the linked paper cannot be found, change the title line to the best available artifact name but preserve the review format.
