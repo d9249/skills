@@ -50,7 +50,7 @@ Also use it when the user provides only a GitHub or Hugging Face dataset link bu
    - GitHub repo -> read README, paper links, project page, release notes only if relevant.
    - Hugging Face dataset -> read dataset card and linked paper/code/model pages.
 2. Use official or primary sources first:
-   - Paper: arXiv abstract/PDF, OpenReview, publisher page, project page.
+   - Paper: arXiv abstract/PDF, OpenReview, publisher page, project page. Check submission history before extracting and pin the versioned HTML/PDF you actually read. Use the latest available revision unless the task is historical. When a detail changes, cite the version containing it; a removed backbone reference does not establish a checkpoint change.
    - Code: official GitHub repository from the authors or institution.
    - Dataset: official Hugging Face dataset card or project-hosted data docs.
 3. If only one of paper/code/dataset is provided, follow official links from that source to find the others. Do not invent missing links.
@@ -60,10 +60,9 @@ Also use it when the user provides only a GitHub or Hugging Face dataset link bu
    - Main problem
    - Proposed method
    - Training/data construction if central
-   - Benchmarks and headline quantitative results: resolve multi-row appendix headers into named columns before transcribing values, then align paper tables and project charts by variant, workload, and paper version rather than figure number alone. Verify the metric aggregation and evaluation regime; a control column or different tuning resolution can make a visually adjacent number the wrong comparison.
-   - Efficiency claims: distinguish observed endpoints, interpolation and fitted ratios. State which stages/operations the FLOP budget counts and what is held fixed before comparing it with tokens or wall time. Name the timing baseline and interval type; an over-baseline plot, absolute latency table, run range and training-seed uncertainty answer different questions.
-   - The strongest counterexample or boundary condition for the headline; check the comparison that changes resolution, data, or model components before generalizing.
-   - Pin the latest available paper revision before extracting. If a detail changes between versions (for example a backbone citation is removed), cite the version containing the detail and keep it historical; a removed reference does not establish a checkpoint change. In video revisit evaluations, identify whether each image pair is generated/generated or generated/captured; neither revisit similarity nor a SLAM-derived proxy alone verifies ground-truth scene geometry.
+   - Benchmarks and headline quantitative results: resolve multi-row headers into named metrics, splits and variants before transcribing values. When parsing arXiv HTML, find the figure by table ID and read each `tr`'s direct `th` and `td` children in order; a method name can be a `th` inside a data row, so reading only `td` silently shifts columns. Align paper tables and project charts by variant, workload and revision rather than figure number alone.
+   - Comparison conditions: separate shared scoring or preprocessing from matched inputs, native resolution, compute and inference settings. Identify what a metric compares, its direction, and how results are aggregated before interpreting it. In video revisit evaluations, distinguish generated/generated pairs from generated/captured pairs; neither revisit similarity nor a SLAM-derived proxy alone verifies ground-truth geometry. Check the strongest relevant counterexample or negative ablation, not just the comparison that favors the method.
+   - Efficiency claims: distinguish observed endpoints, interpolation and fitted ratios. State which stages/operations the FLOP budget counts and what is held fixed before comparing it with tokens or wall time. Name the timing baseline and interval type; an over-baseline plot, absolute latency table, run range and training-seed uncertainty answer different questions. In streaming systems, separate the active attention window from total history storage and retrieval/transfer costs; fewer denoising steps or a prerecorded demo do not establish measured latency or throughput.
 5. For code and datasets, verify:
    - Whether the repository/dataset is official
    - What is actually included

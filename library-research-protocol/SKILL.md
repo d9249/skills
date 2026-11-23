@@ -25,7 +25,7 @@ Use this skill to turn library research from a marketing summary into source-ver
 ## Workflow
 
 1. Define the decision context.
-   - Identify the target library, source URL, expected product pipeline/stage, and whether the user needs overview, capability-family, or implementation-ready evidence.
+   - Identify the target library, source URL, expected product pipeline/stage, and whether the user needs overview, capability-family, or implementation-ready evidence. For a quick adoption opinion, use an `overview` with a clear recommendation, the highest-impact caveat, and what was checked statically versus run; reserve a full inventory and manifest for planning or implementation.
    - If working in ROUTIVA, map to D2D, D2R, R2M, or M2D.
 
 2. Gather source-verified identity.
@@ -40,7 +40,7 @@ Use this skill to turn library research from a marketing summary into source-ver
    - Dependencies, optional extras, Python/Node/runtime bounds, GPU/distributed requirements, cloud/provider clients, API keys, telemetry, dotenv behavior, local storage, output logs, data retention, and sensitive artifacts.
    - Check model weights, datasets, hosted service terms, and generated-data ownership separately from code license.
 
-5. Build the Feature Family Inventory.
+5. For `capability-family` or `implementation-ready` research, build the Feature Family Inventory. For a quick `overview`, proceed to the recommendation once the decision-critical claims and caveats have been checked; do not claim exhaustive coverage.
    - Summarize every material capability family with what it includes and how the host product should interpret it.
    - Mark included, excluded, pending, deprecated, partial, cloud-only, enterprise-only, experimental, or legacy paths.
    - Map install extras/package options to feature families when they change runtime behavior.
@@ -137,9 +137,8 @@ Ask subagents for evidence and uncertainty, not polished conclusions. Cross-chec
 Before claiming completion, confirm:
 
 - source identity and version pins are recorded,
-- feature families are broader than README bullets,
-- capability manifest exists,
-- alternatives matrix exists,
+- the recommendation distinguishes what was checked statically from what was run,
+- feature families, capability manifest, and alternatives matrix are present when the requested coverage is `capability-family` or `implementation-ready`,
 - license/runtime/privacy constraints are recorded,
 - planner role and route ownership are separated,
 - coverage level and pending gaps are stated,
